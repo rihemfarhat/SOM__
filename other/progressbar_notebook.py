@@ -34,7 +34,7 @@ class ProgressBar():
             display(Javascript("$('div#%s').width('%i%%')" % (self.divid, value*101/self.maxval)))
 
     def finish(self):
-        print 'done'
+        print ('done')
         return None
 
 def Percentage():
