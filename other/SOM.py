@@ -15,7 +15,7 @@ import random
 import pickle
 import itertools
 import scipy.spatial
-from scipy.ndimage.morphology import distance_transform_edt
+from scipy.ndimage import distance_transform_edt
 
 def is_interactive():
     import __main__ as main
