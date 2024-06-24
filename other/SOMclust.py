@@ -20,9 +20,9 @@ import SOMgraph
 
 def run_from_ipython():
     try:
-        __IPYTHON__
-        return True
-    except NameError:
+        from IPython import get_ipython
+        return get_ipython() is not None
+    except ImportError:
         return False
 
 if run_from_ipython():
@@ -32,9 +32,9 @@ class clusters:
 
     def __init__(self, umatrix, bmus, smap, waterstop=None):
         try:
-            __IPYTHON__
-            self.ipython = True
-        except NameError:
+           from IPython import get_ipython
+            self.ipython = get_ipython() is not None
+        except ImportError:
             self.ipython = False
         self.x_offset, self.y_offset, self.mask = (None, None, None)
         self.umatrix = umatrix
@@ -110,9 +110,9 @@ class clusters:
                             if verbose:
                                 if self.ipython:
                                     clear_output()
-                                    print "%.2f/100: flooding: %d/%d, %.2f, (%d, %d)"%(count / (n/100.), count, n, waterlevel,u,v)
+                                    print ("%.2f/100: flooding: %d/%d, %.2f, (%d, %d)"%(count / (n/100.), count, n, waterlevel,u,v))
                                 elif count % (n / 100) == 0:
-                                    print "%.2f/100: flooding: %d/%d, %.2f, (%d, %d)"%(count / (n/100.), count, n, waterlevel,u,v)
+                                    print ("%.2f/100: flooding: %d/%d, %.2f, (%d, %d)"%(count / (n/100.), count, n, waterlevel,u,v))
                             circummat[u,v] = mat[u%X,v%Y]
                             mat[u%X,v%Y] = numpy.inf
                             flooding = True
