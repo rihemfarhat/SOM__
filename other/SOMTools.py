@@ -18,14 +18,13 @@ import scipy.interpolate
 import scipy.stats
 import SOM
 import glob
-from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
-from scipy.ndimage.filters import maximum_filter
-import scipy.ndimage.measurements
+from scipy.ndimage import generate_binary_structure, binary_erosion
+from scipy.ndimage import maximum_filter
+import scipy.ndimage
 import sys
 import tarfile
 import os
-import scipy.ndimage.morphology as morphology
-import scipy.ndimage.filters as filters
+
 import scipy.misc
 import copy
 
@@ -529,11 +528,11 @@ def detect_local_minima(arr, toricMap=False, getFilteredArray=False):
     if toricMap:
         X,Y = arr.shape
         arr = expandMatrix(arr)
-    neighborhood = morphology.generate_binary_structure(len(arr.shape),2)
+    neighborhood = generate_binary_structure(len(arr.shape),2)
     # apply the local minimum filter; all locations of minimum value
     # in their neighborhood are set to 1
     # http://www.scipy.org/doc/api_docs/SciPy.ndimage.filters.html#minimum_filter
-    arr_filtered = filters.minimum_filter(arr, footprint=neighborhood)
+    arr_filtered = maximum_filter(arr, footprint=neighborhood)
     local_min = (arr_filtered==arr)
     # local_min is a mask that contains the peaks we are
     # looking for, but also the background.
@@ -546,7 +545,7 @@ def detect_local_minima(arr, toricMap=False, getFilteredArray=False):
     # successfully subtract it from local_min, otherwise a line will
     # appear along the background border (artifact of the local minimum filter)
     # http://www.scipy.org/doc/api_docs/SciPy.ndimage.morphology.html#binary_erosion
-    eroded_background = morphology.binary_erosion(
+    eroded_background = binary_erosion(
         background, structure=neighborhood, border_value=1)
     #
     # we obtain the final mask, containing only peaks,
@@ -588,11 +587,11 @@ def detect_local_maxima(arr, toricMap=False):
     if toricMap:
         X,Y = arr.shape
         arr = expandMatrix(arr)
-    neighborhood = morphology.generate_binary_structure(len(arr.shape),2)
+    neighborhood = generate_binary_structure(len(arr.shape),2)
     # apply the local minimum filter; all locations of minimum value
     # in their neighborhood are set to 1
     # http://www.scipy.org/doc/api_docs/SciPy.ndimage.filters.html#minimum_filter
-    local_max = (filters.maximum_filter(arr, footprint=neighborhood)==arr)
+    local_max = (maximum_filter(arr, footprint=neighborhood)==arr)
     # local_min is a mask that contains the peaks we are
     # looking for, but also the background.
     # In order to isolate the peaks we must remove the background from the mask.
@@ -604,7 +603,7 @@ def detect_local_maxima(arr, toricMap=False):
     # successfully subtract it from local_min, otherwise a line will
     # appear along the background border (artifact of the local minimum filter)
     # http://www.scipy.org/doc/api_docs/SciPy.ndimage.morphology.html#binary_erosion
-    eroded_background = morphology.binary_erosion(
+    eroded_background = binary_erosion(
         background, structure=neighborhood, border_value=1)
     #
     # we obtain the final mask, containing only peaks,
@@ -620,11 +619,11 @@ def getSaddlePoints(matrix, gaussian_filter_sigma=0., low=None, high=None):
     if high == None:
         high = matrix.max()
     matrix = expandMatrix(matrix)
-    neighborhood = morphology.generate_binary_structure(len(matrix.shape),2)
+    neighborhood = generate_binary_structure(len(matrix.shape),2)
     # apply the local minimum filter; all locations of minimum value
     # in their neighborhood are set to 1
     # http://www.scipy.org/doc/api_docs/SciPy.ndimage.filters.html#minimum_filter
-    matrix = filters.minimum_filter(matrix, footprint=neighborhood)
+    matrix = maximum_filter(matrix, footprint=neighborhood)
     matrix = condenseMatrix(matrix)
     outPath, clusterPathMat, grad = minPath(matrix)
     flood = numpy.asarray(outPath)
