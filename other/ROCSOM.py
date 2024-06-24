@@ -157,10 +157,10 @@ class ROCSOM:
    if emergencyStop:
         break
   pbar.finish()
-  print 'Best clustering for Threshold : %s' % Topt
-  print 'Sensitivity : %s' % Yopt
+  print ('Best clustering for Threshold : %s' % Topt)
+  print ('Sensitivity : %s' % Yopt)
   self.Se = Yopt
-  print 'Specificity : %s' % (1-Xopt)
+  print ('Specificity : %s' % (1-Xopt))
   self.Sp = 1-Xopt
   #matplotlib.pyplot.axis([0,1,0,1])
   #matplotlib.pyplot.plot(X,Y,'+')
@@ -218,7 +218,7 @@ class ROCSOM:
         SeMax = self.Se
         if gamma < gammaMin2:
          gammaMin2 = gamma
-         print 'Best sensitivity : %s'%SeMax
+         print ('Best sensitivity : %s'%SeMax)
          bestSeMap = self.som.Map
    pbar.update(n)
   rocfile = open('roc.xy', 'w')
@@ -231,9 +231,9 @@ class ROCSOM:
   cPickle.dump(bestSeMap,bestSeMapFile)
   bestSeMapFile.close()
   
-  print 'Best map for learning with all known ligands and %s molecules from the database' %bestn
-  print 'Best Sensitivity : %s' %bestSe
-  print 'Best Specificity : %s' %bestSp
+  print ('Best map for learning with all known ligands and %s molecules from the database' %bestn)
+  print ('Best Sensitivity : %s' %bestSe)
+  print ('Best Specificity : %s' %bestSp)
   self.plotROC('roc.xy')
   pbar.finish()
   
@@ -242,7 +242,7 @@ class ROCSOM:
   XY = cPickle.load(rocfile)
   if verbose:
    for i in range(len(XY[2])):
-        print '%s ; %s ; %s ; %s'%(XY[0][i],XY[1][i],XY[2][i],XY[3][i])
+        print ('%s ; %s ; %s ; %s'%(XY[0][i],XY[1][i],XY[2][i],XY[3][i]))
   rocfile.close()
   matplotlib.pyplot.grid()
   matplotlib.pyplot.plot([0,1],[0,1])
@@ -271,11 +271,11 @@ class ROCSOM:
         self.Copt = Copt_old
         break
    eMol = len(self.Copt)
-   print eMol
+   print (eMol)
    #print self.Copt
    #print self.som.inputnames
    
-  print self.Copt
+  print (self.Copt)
   
 #roc = ROCSOM(MapFile = 'map_5x4.dat')
 #roc = ROCSOM()
