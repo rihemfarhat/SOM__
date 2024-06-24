@@ -40,7 +40,7 @@ autoSizeMap = Config.getboolean('learn', 'autoSizeMap')
 
 
 if glob.glob(inputMatrixFileName) == []:
- print 'No inputMatrix.dat file!'
+ print ('No inputMatrix.dat file!')
 else:
  if inputMatrixFileName.split('.')[1] == 'npy':
   inputMatrix = numpy.load(inputMatrixFileName)
@@ -55,7 +55,7 @@ if glob.glob(mapFileName) == []:
  som.learn()
 else:
  mapFileName = glob.glob(mapFileName)[0]
- print "Map file: %s"%mapFileName
+ print ("Map file: %s"%mapFileName)
  som = SOM.SOM(inputMatrix, range(inputMatrix.shape[0]), mapFileName=mapFileName, metric='euclidean', autoParam = autoParam, sort2ndPhase=sort2ndPhase, toricMap=toricMap, randomInit=randomInit, autoSizeMap=autoSizeMap)
  if relearn:
   som.learn()
