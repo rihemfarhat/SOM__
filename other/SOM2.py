@@ -90,7 +90,7 @@ class SOM(object):
         """Efficient toric neighborhood function for 3D SOM.
         """
         x, y, z = p
-        X, Y. Z = s
+        X, Y, Z = s
         xm = (x-1)%X
         ym = (y-1)%Y
         zm = (z-1)%Z
