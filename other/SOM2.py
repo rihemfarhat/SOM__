@@ -10,7 +10,7 @@ Please feel free to use and modify this, but keep the above information.
 Thanks!
 """
         
-
+from functools import reduce
 import os
 import struct
 import re
@@ -26,9 +26,9 @@ import scipy.spatial
 
 def run_from_ipython():
     try:
-        __IPYTHON__
-        return True
-    except NameError:
+        from IPython import get_ipython
+        return get_ipython() is not None
+    except ImportError:
         return False
 
 if run_from_ipython():
@@ -43,9 +43,9 @@ class SOM(object):
     def __init__(self, input_matrix=None, from_map=None):
         self.input_matrix = input_matrix
         try:
-            __IPYTHON__
-            self.ipython = True
-        except NameError:
+            from IPython import get_ipython
+            self.ipython = get_ipython() is not None
+        except ImportError:
             self.ipython = False
     
     def _generic_learning_rate(self, t, end_t, alpha_begin, alpha_end, shape='exp'):
@@ -215,9 +215,9 @@ class SOM(object):
                             clear_output()
                         except NameError:
                             self.ipython = False
-                        print phase, t, end_t, '%.2f%%'%((100.*t)/end_t), radius, rate, bmu
+                        print( phase, t, end_t, '%.2f%%'%((100.*t)/end_t), radius, rate, bmu)
                     elif (t%100 == 0):
-                        print phase, t, end_t, '%.2f%%'%((100.*t)/end_t), radius, rate, bmu
+                        print (phase, t, end_t, '%.2f%%'%((100.*t)/end_t), radius, rate, bmu)
                     if show_umatrices:
                         imshow, draw = params['show_umatrices']
                         imshow(self.umatrix(smap, toric=True), interpolation='nearest')
@@ -288,7 +288,7 @@ class SOM(object):
                     t_prime += 1
                 smap = prods / neighborhoods
                 if verbose and (t%(end_t/100) == 0):
-                    print phase, t, end_t, '%.2f%%'%((100.*t)/end_t), t_prime, radius
+                    print (phase, t, end_t, '%.2f%%'%((100.*t)/end_t), t_prime, radius)
                     try:
                         clear_output()
                     except NameError:
@@ -320,7 +320,7 @@ class SOM(object):
         if vectors is None:
             vectors = self.input_matrix
         if numpy.ma.isMaskedArray(vectors):
-            print "get_allbmus not yet implemented for masked input array !!! Use findbmu with a loop instead"
+            print( "get_allbmus not yet implemented for masked input array !!! Use findbmu with a loop instead")
         else:
             try:
                 subpart = parameters['learning_subpart']
@@ -342,7 +342,7 @@ class SOM(object):
         except KeyError:
             subpart = None
         if numpy.ma.isMaskedArray(self.input_matrix):
-            print "get_allbmus_kdtree not yet implemented for masked input array !!! Use findbmu with a loop instead"
+            print ("get_allbmus_kdtree not yet implemented for masked input array !!! Use findbmu with a loop instead")
         else:
             s = reduce(lambda x,y: x*y, list(smap.shape)[:-1], 1)
             tree = scipy.spatial.cKDTree(smap.reshape((s, smap.shape[-1])))
@@ -410,7 +410,7 @@ class SOM(object):
         return a masked array with the same shape than U-matrix. Each element
         gives the index of the input matrix of the best matching input vector.
         """
-        print "computing distances and bmus"
+        print ("computing distances and bmus")
         bmudists = numpy.asarray([self.findbmu(self.smap, e, returndist=True) for e in self.input_matrix])
         X,Y,Z = self.smap.shape
         indexmap = -numpy.ones((X,Y), dtype=int)
@@ -462,18 +462,18 @@ class SOM(object):
                 #   break
             return point
         
-        def fill_bassin(umatrix, start, clusters, connectivity):
+        def fill_bassin(self,umatrix, start, clusters, connectivity):
             s = umatrix.shape
             bassin = start # so we can start from merged bassins
-            bassin_vals = getValues(bassin, umatrix)
-            bassin_ord = argsort(bassin_vals)
+            bassin_vals = self.getValues(bassin, umatrix)
+            bassin_ord = self.argsort(bassin_vals)
             bassin = [ bassin[i] for i in bassin_ord ]
             bassin_vals = [ bassin_vals[i] for i in bassin_ord ]
             neighbors = { item for nb in bassin for item in set(self._neighbor_dim2_toric(nb, s)) }
             neighbors.difference_update(set(bassin))
             neighbors = list(neighbors)
-            neighbors_vals = getValues(neighbors, umatrix)
-            neighbors_ord = argsort(neighbors_vals)
+            neighbors_vals = self.getValues(neighbors, umatrix)
+            neighbors_ord = self.argsort(neighbors_vals)
             neighbors = [ neighbors[i] for i in neighbors_ord ]
             neighbors_vals = [ neighbors_vals[i] for i in neighbors_ord ]
             #print " beginning 'fill_bassin' with %d points in bassin and %d in neighbors."%(len(bassin), len(neighbors))
@@ -536,24 +536,24 @@ class SOM(object):
         bassins = {}
         cluster_number_list = []
         while True:
-            if verbose: print "Starting fill-up of bassin #%d with %d starting points."%(current, len(start))
+            if verbose: print ("Starting fill-up of bassin #%d with %d starting points."%(current, len(start)))
             result = fill_bassin(umat_big, start, clusters, connectivity)
             if result[0] == -1: # completed clustering of this part of the map
-                if verbose: print "New bassin completed (%d neurons). Filled whole space."%(len(result[1]))
+                if verbose: print ("New bassin completed (%d neurons). Filled whole space."%(len(result[1])))
                 bassin = result[1]
                 bassins[current] = bassin
                 fill_clusters(clusters, result[1], current, s)
                 mask = clusters == 0
                 if mask.sum() == 0:
-                    if verbose: print "Clustering completed (%d neurons)."%((clusters != -1).sum())
+                    if verbose: print ("Clustering completed (%d neurons)."%((clusters != -1).sum()))
                     cl_list.append(clusters)
                     break
                 else:
-                    if verbose: print "Still some missing parts..."
+                    if verbose: print ("Still some missing parts...")
                     start = [ numpy.unravel_index(numpy.argmin(umatrix[mask[2*X:3*X, 2*Y:3*Y]]), s) ] # TODO: get the real index 'through' mask
             elif result[0] == 0:
                 a, point, val, bassin = result 
-                if verbose: print "New bassin completed (%d neurons). Spilled in another, non-explored bassin."%len(bassin)
+                if verbose: print( "New bassin completed (%d neurons). Spilled in another, non-explored bassin."%len(bassin))
                 bassins[current] = bassin
                 leaves.append(current+1)
                 fill_clusters(clusters, bassin, current, s)
@@ -563,12 +563,12 @@ class SOM(object):
                     #return cl_list
                     mask = clusters == 0
                     if mask.sum() == 0:
-                        if verbose: print "The map is filled. Clustering completed."
+                        if verbose: print ("The map is filled. Clustering completed.")
                         cl_list.append(clusters)
                         del leaves[-1]
                         break
                     else:
-                        if verbose: print "Filling from the spilling point..."
+                        if verbose: print ("Filling from the spilling point...")
                         start = [ point ]
                         leaves_val.append(umat_big[point])
                 else:
@@ -576,9 +576,9 @@ class SOM(object):
                     start = [ start ]
             elif result[0] > 0:
                 cl, point, val, bassin = result
-                if verbose: print "New bassin completed (%d neurons). Touched bassin #%d."%(len(bassin), cl)
+                if verbose: print ("New bassin completed (%d neurons). Touched bassin #%d."%(len(bassin), cl))
                 if len(bassin) < 3:
-                    if verbose: print "New bassin is too small. It will be merged into cluster #%d."%(cl)
+                    if verbose: print ("New bassin is too small. It will be merged into cluster #%d."%(cl))
                     if current in leaves:
                         idx = leaves.index(current)
                         del leaves[idx]
@@ -592,7 +592,7 @@ class SOM(object):
                     start = bassins[cl]
                 else:
                     #if True:
-                    if verbose: print "Both bassins will be merged into cluster #%d."%(current+1)
+                    if verbose: print ("Both bassins will be merged into cluster #%d."%(current+1))
                     fill_clusters(clusters, bassin, current, s)
                     bassins[current] = bassin
                     #if len(merges) > 0: print merges[-1]
@@ -713,7 +713,7 @@ class SOM(object):
         old_to_new = { p: i for i, p in enumerate(leaves[order]) }
         new_to_old = { i: p for i, p in enumerate(leaves[order]) }
         N = len(leaves)
-        if verbose: print "Number of leaves: %d"%N
+        if verbose: print ("Number of leaves: %d"%N)
         merge_ord = []
         count = { p:1 for p in range(N) }
         for i, l in enumerate(m):
@@ -722,7 +722,7 @@ class SOM(object):
                 na = old_to_new[a]
                 nb = old_to_new[b]
             except:
-                print "Cluster number not found", a, b, old_to_new
+                print ("Cluster number not found", a, b, old_to_new)
                 raise
             nc = N+i
             old_to_new[c] = nc
