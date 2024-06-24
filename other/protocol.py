@@ -80,7 +80,7 @@ else:
  corr.plot(reducedClusterMatrix, outfileName='reducedCorrelationSOM.pdf', normalize=False)
 # With mean
  traceReducedClusterMatrix = mm.reduceMean(ceil=True)
- print traceReducedClusterMatrix.shape
+ print (traceReducedClusterMatrix.shape)
  corr.plot(traceReducedClusterMatrix, outfileName='reducedCorrelationSOM_mean.pdf', normalize=False)
  rmm = matriceManipulation.matrix(reducedClusterMatrix)
  rmm.projection(1, reducedClusterMatrix.diagonal(), options.pdbFileName, outPdbFile='projectionCluster.pdb', ca = options.ca, bb = options.bb)
