@@ -93,7 +93,7 @@ class SOM:
                     sqev=numpy.sqrt(eival)[:2]
                     if autoSizeMap:
                         self.X,self.Y=map(lambda x: int(round(x)),sqev/((numpy.prod(sqev)/(self.X*self.Y))**(1./2))) # returns a size with axes size proportional to the eigenvalues and so that the total number of neurons is at least the number of neurons given in SOM.conf (X*Y)
-                        print "Size of map will be %dx%d."%(self.X,self.Y)
+                        print ("Size of map will be %dx%d."%(self.X,self.Y))
                     # (1,0)*(0,0) if mmt else (0,1)*(1,1)
                     proj=numpy.dot(M.T,eivec) if mmt else numpy.dot(M,eivec)
                     Cmin=proj.min(axis=0)
@@ -110,10 +110,10 @@ class SOM:
                     self.smap=numpy.dot(origrid.transpose([1,2,0]),eivec.T)+inputmean
             else:
                 self.loadMap(smap)
-            print "Shape of the SOM:%s"%str(self.smap.shape)
+            print ("Shape of the SOM:%s"%str(self.smap.shape))
 
     def random_map(self):
-        print "Map initialization..."
+        print ("Map initialization...")
         maxinpvalue = self.inputvectors.max(axis=0)
         mininpvalue = self.inputvectors.min(axis=0)
         somShape = [self.X, self.Y]
@@ -217,14 +217,14 @@ class SOM:
         if self.autoParam:
             self.epsilon_values = []
         Map = self.smap
-        print 'Learning for %s vectors'%len(self.inputvectors)
+        print ('Learning for %s vectors'%len(self.inputvectors))
         firstpass=0
         kdone=[]
         for trainingPhase in range(self.number_of_phase):
             kv=[]
             if self.autoParam:
                 self.rhoValue = 0
-            print '%s iterations'%self.iterations[trainingPhase]
+            print ('%s iterations'%self.iterations[trainingPhase])
             ## Progress bar
             tpn = trainingPhase + 1
             if verbose:
@@ -238,7 +238,7 @@ class SOM:
                         k = kv.pop()
                     else:
                         asarkd=numpy.asarray(kdone)
-                        print "Computing epsilon values for the current map..."
+                        print ("Computing epsilon values for the current map...")
                         epsvalues=[ self.epsilon(k,self.findBMU(k,Map),Map) for k in asarkd ]
                         indx=numpy.argsort(epsvalues)[::1 if self.autoParam else -1]
                         kv = list(asarkd[indx])
