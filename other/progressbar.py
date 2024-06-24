@@ -369,8 +369,6 @@ if __name__=='__main__':
             pbar.update(i)
         pbar.finish()
         print
-
-
     example1()
     example2()
     example3()
