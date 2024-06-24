@@ -32,16 +32,16 @@ class clusters:
 
     def __init__(self, umatrix, bmus, smap, waterstop=None):
         try:
-           from IPython import get_ipython
+            from IPython import get_ipython
             self.ipython = get_ipython() is not None
         except ImportError:
             self.ipython = False
-        self.x_offset, self.y_offset, self.mask = (None, None, None)
-        self.umatrix = umatrix
-        self.umat_cont, self.x_offset, self.y_offset, self.mask, self.waterlevels, self.flooding = self.flood(umatrix, verbose = True, waterstop=waterstop)
-        self.bmus = bmus
-        self.som = SOM2.SOM()
-        self.som.smap = smap
+            self.x_offset, self.y_offset, self.mask = (None, None, None)
+            self.umatrix = umatrix
+            self.umat_cont, self.x_offset, self.y_offset, self.mask, self.waterlevels, self.flooding = self.flood(umatrix, verbose = True, waterstop=waterstop)
+            self.bmus = bmus
+            self.som = SOM2.SOM()
+            self.som.smap = smap
 
     def flood(self, inputmat, x_offset=None, y_offset=None, mask=None, verbose=False, waterstop = None, startingpoint = None, floodgate = False):
         if (x_offset, y_offset, mask) == (None,None,None) and not floodgate:
