@@ -20,7 +20,7 @@ def projection(eigenvalue, eigenvector, pdbFileName, clusterVarComparison=None, 
   p = abs(eigenvalue*eigenvector)
  else:
   cl1,cl2,var=clusterVarComparison
-  print var.shape,eigenvector.shape
+  print (var.shape,eigenvector.shape)
   p = var*( (1.*(eigenvector == cl1)-1.*(eigenvector == cl2)))
  pdbFile = open(pdbFileName)
  pdbW = pdbWriter.PdbWriter(pdbFile)
