@@ -34,9 +34,9 @@ class adjustmentThread(threading.Thread):
 def learn(som):
  Map = som.M
  kv = range(len(som.inputvectors))
- print 'Learning for %s vectors'%len(som.inputvectors)
+ print ('Learning for %s vectors'%len(som.inputvectors))
  for trainingPhase in range(som.number_of_phase):
-  print '%s iterations'%som.iterations[trainingPhase]
+  print ('%s iterations'%som.iterations[trainingPhase])
   ## Progress bar
   tpn = trainingPhase + 1
   widgets = ['Training phase %s : ' % tpn, progressbar.Percentage(), progressbar.Bar(marker='=',left='[',right=']'), progressbar.ETA()]
