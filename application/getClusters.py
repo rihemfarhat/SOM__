@@ -42,7 +42,7 @@ def getClusters(map, uMatrix, relative_threshold):
 #  splitDockMap.get3Dvectors(mapCom_global[sel], mapVectors1_global[sel], mapNorm1_global[sel], 'global_c%s'%c)
   sortedClusterMat[sel] = c
   cId = numpy.where(cIds==i)[0][0]
-  print 'cId: %s, mean:%.2f, median: %.2f, min:%.2f'%(c, uMeans[cId], uMedians[cId], uMins[cId])
+  print ('cId: %s, mean:%.2f, median: %.2f, min:%.2f'%(c, uMeans[cId], uMedians[cId], uMins[cId]))
  numpy.save('clusterMat.npy', sortedClusterMat)
  SOMTools.plotMat(sortedClusterMat, 'clusterMat.pdf', interpolation='nearest')
  return sortedClusterMat
