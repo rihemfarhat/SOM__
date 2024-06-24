@@ -27,7 +27,7 @@ class matrix:
   for a square matrix
   """
   if self.shape[0] != self.shape[1]:
-   print 'Warning: the matrix is not a square matrix'
+   print ('Warning: the matrix is not a square matrix')
    return self.matrix
   else:
    s = self.shape[0]/3
@@ -58,7 +58,7 @@ class matrix:
   for a square matrix
   """
   if self.shape[0] != self.shape[1]:
-   print 'Warning: the matrix is not a square matrix'
+   print ('Warning: the matrix is not a square matrix')
    return self.matrix
   else:
    s = self.shape[0]/factor
@@ -164,7 +164,7 @@ unset cartoon_flat_sheets
    for i in range(matrix.shape[0]):
     vectors.append(list(matrix[i:i+1][0]))
     vectorNames.append(i)
-  print 'Shape of the input data: %s'%(str(numpy.array(vectors).shape))
+  print ('Shape of the input data: %s'%(str(numpy.array(vectors).shape)))
   return vectorNames, vectors
 
  def distFunc(self, vector, map):
@@ -233,7 +233,7 @@ unset cartoon_flat_sheets
   nameClusters =  som.calibration(map, clustersMap, name=True)[1]
   clusters = nameClusters.values()
 #  print clusters
-  print 'Number of clusters found: %s'%len(clusters)
+  print ('Number of clusters found: %s'%len(clusters))
 #  clusters = som.calibration(map, clustersMap, name = True)
 #  clusterValues = clusters[0]
 #  clusterNames = clusters[1]
