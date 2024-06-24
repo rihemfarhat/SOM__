@@ -278,29 +278,29 @@ class ProgressBar(object):
         return self.currval * 100.0 / self.maxval
 
     def _format_widgets(self):
-    r = []
-    hfill_inds = []
-    num_hfill = 0
-    currwidth = 0
+            r = []
+            hfill_inds = []
+            num_hfill = 0
+            currwidth = 0
 
-    for i, w in enumerate(self.widgets):
-        if isinstance(w, ProgressBarWidgetHFill):
-            r.append(w)
-            hfill_inds.append(i)
-            num_hfill += 1
-        elif isinstance(w, str):
-            r.append(w)
-            currwidth += len(w)
-        else:
-            weval = w.update(self)
-            currwidth += len(weval)
-            r.append(weval)
+            for i, w in enumerate(self.widgets):
+                if isinstance(w, ProgressBarWidgetHFill):
+                    r.append(w)
+                    hfill_inds.append(i)
+                    num_hfill += 1
+                elif isinstance(w, str):
+                    r.append(w)
+                    currwidth += len(w)
+                else:
+                    weval = w.update(self)
+                    currwidth += len(weval)
+                    r.append(weval)
 
-    for iw in hfill_inds:
-        if iw < len(r):
-            r[iw] = r[iw].update(self, (self.term_width - currwidth) / num_hfill)
+            for iw in hfill_inds:
+                if iw < len(r):
+                    r[iw] = r[iw].update(self, (self.term_width - currwidth) / num_hfill)
 
-    return r
+                return r
 
 
     def _format_line(self):
