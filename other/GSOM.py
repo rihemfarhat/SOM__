@@ -146,11 +146,11 @@ class GSOM:
     def learn(self, verbose=False):
         self.smap_list = []
         self.n_neurons = []
-        print 'Learning for %s vectors'%len(self.inputvectors)
+        print ('Learning for %s vectors'%len(self.inputvectors))
         kdone=[]
         for trainingPhase in range(self.number_of_phase):
             kv=[]
-            print '%s iterations'%self.iterations[trainingPhase]
+            print ('%s iterations'%self.iterations[trainingPhase])
             self.n_neurons.append([self.step, (1-self.smap.mask[:,:,0]).sum()])
             ## Progress bar
             tpn = trainingPhase + 1
