@@ -32,7 +32,7 @@ if matrixFileName.split('.')[1] == 'npy':
 elif matrixFileName.split('.')[1] == 'dat':
  matrix = pickle.load(open(matrixFileName))
 else:
- print "File extension must be 'dat' for a python pickle file or 'npy' for a numpy file object"
+ print ("File extension must be 'dat' for a python pickle file or 'npy' for a numpy file object")
 X,Y = matrix.shape
 
 outFile = open('%s.tex'%matrixFileName.split('.')[0], 'w')
