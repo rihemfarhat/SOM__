@@ -18,9 +18,9 @@ import itertools
 
 def run_from_ipython():
     try:
-        __IPYTHON__
-        return True
-    except NameError:
+        from IPython import get_ipython
+        return get_ipython() is not None
+    except ImportError:
         return False
 
 if run_from_ipython():
@@ -29,9 +29,9 @@ if run_from_ipython():
 class graph:
     def __init__(self, smap = None, mask = None, graph = None, umat = None):
         try:
-            __IPYTHON__
-            self.ipython = True
-        except NameError:
+            from IPython import get_ipython
+            self.ipython = get_ipython() is not None
+        except ImportError:
             self.ipython = False
         if smap != None:
             self.smap = smap
@@ -73,9 +73,9 @@ class graph:
                             self.updategraph((i,j), (u,v), d)
         subgraphes = self.splitgraph(self.graph)
         if len(subgraphes) > 1:
-            print "Warning: the main graph is splitted in %d graphes"%len(subgraphes)
+            print ("Warning: the main graph is splitted in %d graphes"%len(subgraphes))
             self.graph = subgraphes[numpy.argmax([len(e) for e in subgraphes])]
-            print "Keep only the main graph of size %d"%len(self.graph)
+            print ("Keep only the main graph of size %d"%len(self.graph))
 
 
     def Dijkstra(self, G, start, end=None):
@@ -542,7 +542,7 @@ class graph:
         clustgraph = {}
         self.cmat = numpy.zeros((x,y), dtype=int)
         for i, n1 in enumerate(vertlist):
-            print 'clustgraph: %.4f'%(float(i+1)/nnodes)
+            print ('clustgraph: %.4f'%(float(i+1)/nnodes))
             if self.ipython:
                 clear_output()
             n2s = localminima[cmat[n1]]
