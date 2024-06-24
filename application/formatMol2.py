@@ -29,7 +29,7 @@ atomType = []
 resTypes = []
 resIds = []
 coordMat = []
-print 'Reading parameters...'
+print ('Reading parameters...')
 for line in fr:
  if recordName:
   name=line.strip()
@@ -58,7 +58,7 @@ for line in fr:
 fr.close()
 fw.close()
 
-print 'Array conversion...'
+print ('Array conversion...')
 ligNames = numpy.array(ligNames)
 ligCharges = numpy.array(ligCharges, dtype=float)
 ligAtomIds = numpy.array(ligAtomIds, dtype=int)
@@ -67,9 +67,9 @@ atomName = numpy.array(atomName)
 resIds = numpy.array(resIds, dtype=int)
 coordMat = numpy.array(coordMat, dtype=float)
 atomType = numpy.array(atomType)
-print 'Array filtering...'
+print ('Array filtering...')
 filter = numpy.bool_(1-numpy.isnan(coordMat).any(axis=1))
-print 'Writing parameter files...'
+print ('Writing parameter files...')
 #numpy.save('%s_names.npy'%basename, ligNames[filter])
 #numpy.save('%s_charges.npy'%basename, ligCharges[filter])
 #numpy.save('%s_atomIds.npy'%basename, ligAtomIds[filter])
