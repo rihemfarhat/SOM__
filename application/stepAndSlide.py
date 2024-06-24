@@ -188,7 +188,7 @@ class StepAndSlide:
                 A = steps[0][-1]
             if steps[1] != []:
                 B = steps[1][-1]
-            print "iter: %d, step: %s,%s,%d steps,%.2f"%(self.count, A,B,len(steps[0])+len(steps[1]),d)
+            print ("iter: %d, step: %s,%s,%d steps,%.2f"%(self.count, A,B,len(steps[0])+len(steps[1]),d))
             slides = self.Slide(A,B)
 #            if slides[0][-1] == A and slides[1][-1] == B: break
             A_prev = A
@@ -198,7 +198,7 @@ class StepAndSlide:
             if slides[1] != []:
                 B = slides[1][-1]
             if A == A_prev and B == B_prev: break
-            print "iter: %d, slide: %s,%s,%d slides,%.2f"%(self.count, A,B,len(slides[0])+len(slides[1]),d)
+            print ("iter: %d, slide: %s,%s,%d slides,%.2f"%(self.count, A,B,len(slides[0])+len(slides[1]),d))
             path1.extend(slides[0])
             path2.extend(slides[1])
             self.path.extend(path1)
