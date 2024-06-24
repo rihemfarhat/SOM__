@@ -15,7 +15,7 @@ import numpy
 import re
 import matplotlib.pyplot
 import progressbar
-import cPickle
+import cPickle # type: ignore
 
 # Import Psyco if available
 #try:
