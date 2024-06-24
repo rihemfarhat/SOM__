@@ -15,7 +15,7 @@ import numpy
 import re
 import matplotlib.pyplot
 import progressbar
-import cPickle # type: ignore
+import _pickle # type: ignore
 
 # Import Psyco if available
 #try:
@@ -55,7 +55,7 @@ class ROCSOM:
    self.som.learn()
   else:
    MapFileFile = open(MapFile, 'r')
-   self.som.Map = cPickle.load(MapFileFile)
+   self.som.Map = _pickle.load(MapFileFile)
    MapFileFile.close()
   self.BMUs = []
   for k in range(len(self.som.inputvectors)):
@@ -176,7 +176,7 @@ class ROCSOM:
     rocfile = open('roc_%s.xy'%self.MapFile, 'w')
    else:
     rocfile = open('roc_som%s.dat'%jobIndex, 'w')
-   cPickle.dump(XY,rocfile)
+   _pickle.dump(XY,rocfile)
    rocfile.close()
   self.Topt = Topt
   self.Copt = Copt
@@ -222,13 +222,13 @@ class ROCSOM:
          bestSeMap = self.som.Map
    pbar.update(n)
   rocfile = open('roc.xy', 'w')
-  cPickle.dump(XY,rocfile)
+  _pickle.dump(XY,rocfile)
   rocfile.close()
   bestMapFile = open('bestMap.dat', 'w')
-  cPickle.dump(bestMap,bestMapFile)
+  _pickle.dump(bestMap,bestMapFile)
   bestMapFile.close()
   bestSeMapFile = open('bestSeMap.dat', 'w')
-  cPickle.dump(bestSeMap,bestSeMapFile)
+  _pickle.dump(bestSeMap,bestSeMapFile)
   bestSeMapFile.close()
   
   print ('Best map for learning with all known ligands and %s molecules from the database' %bestn)
@@ -239,7 +239,7 @@ class ROCSOM:
   
  def plotROC(self, rocfilename, verbose=False):
   rocfile = open(rocfilename, 'r')
-  XY = cPickle.load(rocfile)
+  XY = _pickle.load(rocfile)
   if verbose:
    for i in range(len(XY[2])):
         print ('%s ; %s ; %s ; %s'%(XY[0][i],XY[1][i],XY[2][i],XY[3][i]))
