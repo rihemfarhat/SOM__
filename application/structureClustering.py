@@ -16,6 +16,7 @@ import itertools
 import scipy.spatial
 import scipy.stats
 import scipy.ndimage.measurements
+from other.SOMTools import allKohonenMap2D, findMinAll, findMinRegion, findMinRegionAll, getEMmapCorrelationMatrix, getUmatrix, plotMat, readRestraints, restraintsPotential, sliceMatrix, vmdMap
 import SOM
 import glob
 #from newProtocolModule import *
