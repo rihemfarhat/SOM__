@@ -16,6 +16,7 @@ import itertools
 import scipy.spatial
 import scipy.stats
 import scipy.ndimage.measurements
+from other.SOMTools import readRestraints
 import SOM
 import glob
 #from newProtocolModule import *
