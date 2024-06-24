@@ -70,9 +70,9 @@ for i in range(nframes):
     coordsN = [ numpy.sqrt(w)*e for e in [v1,v2,-v1,-v2] ] / numpy.sqrt(2)
     rmsds = [ ((e - coordsRef)**2).sum(axis=1).mean() for e in coordsN ]
     chiralities = [ numpy.sum(numpy.sign(getChiralities(e))) for e in coordsN ]
-    print chiralities
+    print (chiralities)
     coords = coordsN[numpy.argmax(chiralities)]
     traj.append(coords)
-    print "%d/%d %d"%(i+1,len(outPath),numpy.max(chiralities))
+    print ("%d/%d %d"%(i+1,len(outPath),numpy.max(chiralities)))
 traj = numpy.asarray(traj)
 numpy.save('SOM_traj', traj)
