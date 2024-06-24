@@ -80,7 +80,7 @@ def getROC(ligNames, motif, FileName, uValues, getCompounds = getCompounds):
  n2 = numpy.size(numpy.unique(uValues))
  multipleValues = ( n1 != n2 )
  if multipleValues:
-  print 'WARNING: Same sorting value for multiple compounds'
+  print( 'WARNING: Same sorting value for multiple compounds')
  f = f[numpy.argsort(uValues)]
  uValues = uValues[numpy.argsort(uValues)]
  fprec = -1
@@ -90,7 +90,7 @@ def getROC(ligNames, motif, FileName, uValues, getCompounds = getCompounds):
  R = []
  N = (1-f).sum()
  P = f.sum()
- print 'card(N):%s; card(P):%s'%(N,P)
+ print ('card(N):%s; card(P):%s'%(N,P))
  for i in range(f.size):
   if multipleValues:
    test = (uValues[i] != uValue_prec)
@@ -152,7 +152,7 @@ def main():
  Rmin, AUCmin = getROC(ligNames[sel], 'CHEMBL', 'ROC_Min.pdf', uValues)
  Rbmu, AUCbmu = getROC(ligNames[selBmuProb], 'CHEMBL', 'ROC_BMUprob.pdf', bmuProb[selBmuProb])
  Rscores, AUCscores = getROC(ligNames[selScore], 'CHEMBL', 'ROC_Scores.pdf', Scores[selScore])
- print 'AUCbmu=%f; AUCmin=%f; AUCscores:%f'%(AUCbmu, AUCmin, AUCscores)
+ print ('AUCbmu=%f; AUCmin=%f; AUCscores:%f'%(AUCbmu, AUCmin, AUCscores))
 
 
 if __name__ == "__main__":
