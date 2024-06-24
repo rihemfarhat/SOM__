@@ -30,7 +30,7 @@ class StepAndSlide:
         self.count=0
         self.path = []
         if not self.areIsoEnergetic(start, stop):
-            print "Error: Start and stop points are not isoenergetic!"
+            print ("Error: Start and stop points are not isoenergetic!")
             sys.exit(0)
 
     def findIsoEnergeticPoints(self,point):
