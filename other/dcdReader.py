@@ -44,7 +44,7 @@ class DcdReader:
   As of yet, only CHARMM format in big-endian form is supported (with both 32b and 64b support).
   """
   if verbose or self.verbose:
-   print "Loading dcd file..."
+   print ("Loading dcd file...")
 
   def unpackRead(string,fd):
    """ Read the next bytes from a binary file corresponding to the given format string """
@@ -127,7 +127,7 @@ class DcdReader:
   Compute the mean coordinates of all frames.
   """
   if self.verbose:
-   print "Computing mean structure..."
+   print ("Computing mean structure...")
   self.mean=numpy.mean(self.array,axis=0)
   return self.mean
 
@@ -139,7 +139,7 @@ class DcdReader:
   if self.mean is None:
    self.getMean()
   if self.verbose:
-   print "Computing covariance matrix..."
+   print ("Computing covariance matrix...")
   M=self.array-self.mean[None]
   self.covariance=numpy.dot(M.T,M)
   return self.covariance
@@ -152,7 +152,7 @@ class DcdReader:
   if self.covariance is None:
    self.getCovariance()
   if self.verbose:
-   print "Computing correlation matrix..."
+   print( "Computing correlation matrix...")
 
 #  stdev=numpy.sqrt(numpy.diag(self.covariance))
 #  self.correlation=numpy.empty(self.covariance.shape)
@@ -176,7 +176,7 @@ class DcdReader:
   else:
    tar=self.array[template,:]
   if self.verbose:
-   print "Aligning..."
+   print ("Aligning...")
   xi=range(0,3*self.natom,3)
   yi=range(1,3*self.natom,3)
   zi=range(2,3*self.natom,3)
