@@ -52,4 +52,4 @@ if data.shape[0] == bmuCoordinates.shape[0]:
  pickle.dump(dataMap, open('%s.dat'%outPDFFileName.split('.')[0], 'w'))
  plotMat(dataMap, outPDFFileName, interpolation = interpolation, contour = contour, vmin = vmin, vmax = vmax)
 else:
- print 'Shape mismatch between data (%s) and bmuCoordinates (%s)!'%(data.shape[0], bmuCoordinates.shape[0])
+ print ('Shape mismatch between data (%s) and bmuCoordinates (%s)!'%(data.shape[0], bmuCoordinates.shape[0]))
